@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import apiClient from '../services/api-clients';
+import rawgClient from '../services/api-clients';
 import { CanceledError } from 'axios';
 
-interface Game {
+export interface Game {
   id: number;
   name: string;
+  background_image: string;
 }
 
 interface FetchGamesResponse {
@@ -18,7 +19,7 @@ const useGames = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    apiClient
+    rawgClient
       .get<FetchGamesResponse>('/games', { signal: controller.signal })
       .then((response) => setGames(response.data.results))
       .catch((err) => {
